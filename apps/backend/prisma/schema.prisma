@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Anime {
+  id        String      @id @default(cuid())
+  malId     Int         @unique
+  title     String
+  image     String
+  genres    String
+  score     Float?
+  episodes  Int?
+  synopsis  String?
+  popularity Int?
+  streaming String?
+  streamingUpdatedAt DateTime?
+  createdAt DateTime    @default(now())
+  swipes    Swipe[]
+  watchlist Watchlist[]
+}
+
+model Swipe {
+  id        String      @id @default(cuid())
+  sessionId String      @default("anonymous")
+  animeId   String
+  action    String
+  createdAt DateTime    @default(now())
+  anime     Anime       @relation(fields: [animeId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, action, createdAt])
+  @@index([sessionId, animeId])
+}
+
+model Watchlist {
+  id        String   @id @default(cuid())
+  sessionId String   @default("anonymous")
+  animeId   String
+  createdAt DateTime @default(now())
+  anime     Anime    @relation(fields: [animeId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, animeId])
+  @@index([sessionId, createdAt])
+}

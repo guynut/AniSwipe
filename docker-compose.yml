@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./apps/backend
+    container_name: aniswipe-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - DATABASE_URL=file:./prisma/dev.db
+      - JIKAN_BASE_URL=https://api.jikan.moe/v4
+
+  frontend:
+    build:
+      context: ./apps/frontend
+    container_name: aniswipe-frontend
+    ports:
+      - "5173:80"
+    environment:
+      - VITE_API_URL=http://localhost:3001
+    depends_on:
+      - backend
