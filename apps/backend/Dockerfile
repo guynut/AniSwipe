@@ -1,7 +1,7 @@
 FROM oven/bun:1.3.10 AS base
 WORKDIR /app
 
-COPY package.json tsconfig.json ./
+COPY package.json tsconfig.json prisma.config.ts ./
 COPY prisma ./prisma
 COPY src ./src
 
@@ -10,4 +10,4 @@ RUN bunx prisma generate
 RUN bun build src/index.ts --outdir dist --target bun
 
 EXPOSE 3001
-CMD ["bun", "run", "dist/index.js"]
+CMD ["bun", "run", "start"]

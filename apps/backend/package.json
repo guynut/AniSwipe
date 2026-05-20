@@ -6,7 +6,7 @@
     "dev": "prisma generate && bun --watch src/index.ts",
     "typecheck": "prisma generate && tsc -p tsconfig.json --noEmit",
     "build": "bun build src/index.ts --outdir dist --target bun",
-    "start": "prisma generate && bun run dist/index.js",
+    "start": "prisma generate && prisma db push && bun run dist/index.js",
     "test": "bun test",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push"
